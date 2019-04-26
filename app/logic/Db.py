@@ -1,6 +1,6 @@
-from ..models.entity.hide import  Hide
-from ..models.entity.like import Like
-from ..models.entity.user import User
+from models.entity.hide import  Hide
+from models.entity.like import Like
+from models.entity.user import User
 
 class Db:
 

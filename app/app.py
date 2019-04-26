@@ -19,3 +19,8 @@ db.init_app(app)
 @app.route('/')
 def index():
 	return render_template('index.html')
+
+
+@app.route('/place')
+def index():
+	return render_template('place.html')
