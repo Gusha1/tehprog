@@ -4,7 +4,6 @@ from flask import redirect
 from flask import url_for
 from flask import render_template
 
-
 from logic.API import API
 from logic.Auth import Auth
 from logic.Db import Db
@@ -16,11 +15,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/db.db3'
 
 db.init_app(app)
 
+
+@app.route('/createall')
+def createAll():
+    db.create_all()
+    return redirect(url_for('index'))
+
+
 @app.route('/')
 def index():
-	return render_template('index.html')
+    return render_template('index.html')
 
 
 @app.route('/place')
-def index():
-	return render_template('place.html')
+def place():
+    return render_template('place.html')
