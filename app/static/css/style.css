@@ -1,0 +1,99 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;   
+}
+
+body.auth {
+    background-color: #1D9D73;
+}
+
+header {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
+}
+
+header .logo a {
+    font-size: 22px;
+    color: #282828;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.container {
+    display: block;
+    max-width: 1200px;
+    width: 100%;
+    margin: auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.auth-form {
+    background-color: #fff;
+    max-width: 320px;
+    margin: auto;
+    border-radius: 2px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    box-shadow: 0 3px 10px -2px rgba(0, 0, 0, .55);
+    margin-top: 20vh;
+}
+
+.auth-form h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.auth-form .auth-form__buttons {
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 6px 10px;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #999;
+    border-radius: 2px;
+}
+
+.btn.btn-success {
+    background-color: #1D9D73;
+    color: #fff;
+    border: 1px solid #1B9069;
+}
+
+.btn.btn-info {
+    background-color: #238AE6;
+    border: 1px solid #238AE6;
+    color: #fff;
+}
+
+ul.errors {
+    padding-left: 0;
+    list-style-type: none;
+    color: #BF2141;
+    margin-bottom: 15px;
+}

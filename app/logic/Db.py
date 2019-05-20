@@ -1,15 +1,18 @@
 from models.entity.hide import  Hide
 from models.entity.like import Like
 from models.entity.user import User
+from app import db
 
 class Db:
 
     def getUser(self, username, password):
         pass
 
-
     def addUser(self, username, password):
-        pass
+        user = User(user_name=username, password=password)
+        print('hello world')
+        db.session.add(user)
+        db.session.commit()
 
 
     def getLikedPlaces(self):
