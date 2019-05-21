@@ -91,9 +91,167 @@ header .logo a {
     color: #fff;
 }
 
+.btn.btn-white {
+    background-color: #fff;
+    color: #282828;
+    border: 1px solid #fff;
+}
+
+.btn.btn-black {
+    background-color: #282828;
+    color: #fff;
+    border: 1px solid #282828;
+}
+
 ul.errors {
     padding-left: 0;
     list-style-type: none;
     color: #BF2141;
     margin-bottom: 15px;
+}
+
+header.green {
+    background-color: #1b9069;
+}
+
+header.green .logo a {
+    color: #fff;
+}
+
+.filters {
+    width: 30%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.content {
+    width: 70%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.places {
+    background-color: #efefef;
+    padding-top: 30px;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .15);
+    margin-bottom: 30px;
+}
+
+.place-card__rating i.fa {
+    color: #E7C800;
+}
+
+.place-card__rating {
+    margin-bottom: 5px;
+}
+
+.content__data-top input {
+    padding: 10px 20px;
+    width: 100%;
+}
+
+.content__data-top {
+    position: relative;
+}
+
+.content__data-top button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.filters__data {
+    min-height: 200px;
+}
+
+.content__data {
+    min-height: 200px;
+}
+
+.place-card {
+    display: flex;
+    background-color: #fff;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .15)
+}
+
+.content__data-mid {
+    margin-top: 40px;
+}
+
+.place-card__image {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+}
+
+.place-card__image img {
+    height: 100%;
+}
+
+.place-card__content {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.place-card__name {
+    font-size: 20px;
+    display: block;
+    color: #238AE6;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.place__icons {
+    margin-bottom: 10px;
+}
+
+.place__icons i.fa {
+    margin-right: 5px;
+}
+
+.place__icons i.fa {
+    color: #787878;
+}
+
+.place__icons i.fa.red {
+    color: #BF2141;
+}
+
+.row-header {
+}
+
+.header__right {
+    margin-left: auto;
+}
+
+.header__navs a {
+    color: #fff;
+    margin-left: 10px;
+}
+
+.header__navs {
+    align-self: flex-end;
+    margin-bottom: 3px;
+    margin-left: 35px;
+}
+
+.username {
+    color: #fff;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.logout i.fa {
+    color: #fff;
+    font-size: 18px;
+}
+
+.content__data-mid h1 {
+    margin-bottom: 20px;
 }

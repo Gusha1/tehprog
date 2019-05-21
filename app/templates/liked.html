@@ -31,7 +31,6 @@
             </div>
         </header>
         <div class="container">
-            <form action="/" method="POST">
                 <div class="row places">
                     <div class="filters">
                         <div class="filters__data">
@@ -40,18 +39,15 @@
                     </div>
                     <div class="content">
                         <div class="content__data">
-                            <div class="content__data-top">
-                                <input type="text" name="keyword" value="{{ keyword }}" placeholder="Поиск">
-                                <button type="submit"><i class="fa fa-search"></i></button>
-                            </div>
                             <div class="content__data-mid">
+                                <h1>Понравившиеся места</h1>
                                 {% if places %}
                                     {% for place in places %}
                                         <div class="place-card">
                                             <div class="place-card__image" style="background: url({{ place.photo }}) no-repeat center; background-size: cover">
                                             </div>
                                             <div class="place-card__content">
-                                                <a class="place-card__name" href="{{ place.href }}">{{ place.name }}</a>                                        
+                                                <a class="place-card__name" href="/place/{{ place.place_id }}">{{ place.name }}</a>
                                                 <p class="place-card__rating">
                                                         {% if place.rating %}
                                                         {% for num in range(place.rating) %}
@@ -62,29 +58,21 @@
                                                         {% endif %}
                                                         {% endif %}
                                                 </p>
-                                                {% if auth %}
-                                                <div class="place__icons">
-                                                    {% if place.liked %}
-                                                    <i class="fa fa-heart red"></i>
-                                                    {% else %}
-                                                    <a href="/like/{{ place.place_id }}"><i class="fa fa-heart"></i></a>
-                                                    <a href="/hide/{{ place.place_id }}"><i class="fa fa-eye-slash"></i></a>
-                                                    {% endif %}
-                                                </div>
-                                                {% endif %}
+                                                
                                                 </p>
-                                                <p class="place-card__address">{{ place.address }}</p>
+                                                <p class="place-card__address">{{ place.vicinity }}</p>
+                                                <br>
+                                                <a href="/removefromliked/{{ place.place_id }}" class="btn btn-info">Урать из понравившихся</a>
                                             </div>
                                         </div>
                                     {% endfor %}
                                 {% else %}
-
+                                    <h3>В скрытые места ничего не добавлено</h3>
                                 {% endif %}
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
         </div>
     </div>
 </body>

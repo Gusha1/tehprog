@@ -5,8 +5,9 @@ from app import db
 
 class Db:
 
-    def getUser(self, username, password):
-        pass
+    def getUser(self, username):
+        return User.query.filter_by(user_name=username).first()
+        
 
     def addUser(self, username, password):
         user = User(user_name=username, password=password)
@@ -15,29 +16,35 @@ class Db:
         db.session.commit()
 
 
-    def getLikedPlaces(self):
+    def getLikedPlaces(self, userId):
+        return Like.query.filter_by(user_id=userId).all()
+
+
+    def getLikedPlace(self, userId):
         pass
 
 
-    def getLikedPlace(self, placeId):
-        pass
+    def addLikedPlace(self, placeId, userId):
+        likedPlace = Like(place_id=placeId, user_id=userId)
+        db.session.add(likedPlace)
+        db.session.commit()
 
 
-    def addLikedPlace(self, placeId):
-        pass
+    def removeLikedPlace(self, placeId, userId):
+        Like.query.filter_by(place_id=placeId, user_id=userId).delete()
+        db.session.commit()
 
 
-    def removeLikedPlace(self, placeId):
-        pass
+    def getHidedPlaces(self, userId):
+        return Hide.query.filter_by(user_id=userId).all()
 
 
-    def getHidedPlaces(self):
-        pass
+    def addHidedPlace(self, placeId, userId):
+        hidedPlace = Hide(place_id=placeId, user_id=userId)
+        db.session.add(hidedPlace)
+        db.session.commit()
 
 
-    def addHidedPlace(self, placeId):
-        pass
-
-
-    def removeHidedPlace(self, placeId):
-        pass
+    def removeHidedPlace(self, placeId, userId):
+        Hide.query.filter_by(place_id=placeId, user_id=userId).delete()
+        db.session.commit()

@@ -11,7 +11,6 @@ from logic.API import API
 from logic.Auth import Auth
 from logic.Db import Db
 from logic.PrepareRequest import PrepareRequest
-from logic.PrepareResponse import PrepareResponse
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/db.db3'
@@ -19,6 +18,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/db.db3'
 db.init_app(app)
 auth = Auth()
 dbWorker = Db()
+prepareRequest = PrepareRequest()
+api = API()
 
 @app.route('/createall')
 def createAll():
@@ -26,13 +27,62 @@ def createAll():
     return redirect(url_for('index'))
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    if not auth.isLoggedUser(request.cookies):
-        return redirect(url_for('login'))
+    if request.method == 'GET':
+        places = api.getPlaces(prepareRequest.prepareList({}))
+        if not auth.isLoggedUser(request.cookies):
+            return render_template('index.html', places=places, auth=False)
 
-    return render_template('index.html')
+        user = dbWorker.getUser(request.cookies.get('userLogin'))
+        sortedPlaces = []
 
+        hidedPlaces = dbWorker.getHidedPlaces(user.id)
+        for i in range(len(places)):
+            flag = False
+            for j in range(len(hidedPlaces)):
+                if places[i].get('place_id') == hidedPlaces[j].place_id:
+                    flag = True
+            if not flag:
+                sortedPlaces.append(places[i])
+        
+        likedPlaces = dbWorker.getLikedPlaces(user.id)        
+        for i in range(len(sortedPlaces)):
+            flag = False
+            for j in range(len(likedPlaces)):
+                if sortedPlaces[i].get('place_id') == likedPlaces[j].place_id:
+                    flag = True
+                if flag:
+                    sortedPlaces[i]['liked'] = True
+
+        return render_template('index.html', places=sortedPlaces, auth=True, user=user)
+
+    elif request.method == 'POST':
+        places = api.getPlaces(prepareRequest.prepareList(request.form))
+        if not auth.isLoggedUser(request.cookies):
+            return render_template('index.html', places=places, auth=False, keyword=request.form.get('keyword'))
+        user = dbWorker.getUser(request.cookies.get('userLogin'))
+        sortedPlaces = []
+
+        hidedPlaces = dbWorker.getHidedPlaces(user.id)
+        for i in range(len(places)):
+            flag = False
+            for j in range(len(hidedPlaces)):
+                if places[i].get('place_id') == hidedPlaces[j].place_id:
+                    flag = True
+            if not flag:
+                sortedPlaces.append(places[i])
+        
+        likedPlaces = dbWorker.getLikedPlaces(user.id)        
+        for i in range(len(sortedPlaces)):
+            flag = False
+            for j in range(len(likedPlaces)):
+                if sortedPlaces[i].get('place_id') == likedPlaces[j].place_id:
+                    flag = True
+                if flag:
+                    sortedPlaces[i]['liked'] = True
+
+        return render_template('index.html', places=sortedPlaces, auth=True, user=user, keyword=request.form.get('keyword'))
 
 @app.route('/place')
 def place():
@@ -72,6 +122,69 @@ def registration():
         else:
             return render_template('registration.html', errors=['Данные введены не верно'])
         
+
+@app.route('/like/<placeId>')
+def like(placeId = None):
+    if placeId:
+        user = dbWorker.getUser(request.cookies.get('userLogin'))
+        dbWorker.addLikedPlace(placeId, user.id)
+    return redirect(url_for('index'))
+
+
+@app.route('/hide/<placeId>')
+def hide(placeId = None):
+    if placeId:
+        user = dbWorker.getUser(request.cookies.get('userLogin'))
+        dbWorker.addHidedPlace(placeId, user.id)
+    return redirect(url_for('index'))
+
+@app.route('/hided')
+def hided():
+    if not auth.isLoggedUser(request.cookies):
+        return redirect(url_for('index'))
+
+    user = dbWorker.getUser(request.cookies.get('userLogin'))
+    hidedPlacesIds = dbWorker.getHidedPlaces(user.id)
+
+    places = []
+    
+    for place in hidedPlacesIds:
+        place = api.getPlaceInfo(prepareRequest.preparePlaceInfo(place.place_id))
+        places.append(place)
+
+    return render_template('hided.html', places=places, auth=True, user=user)
+
+@app.route('/liked')
+def liked():
+    if not auth.isLoggedUser(request.cookies):
+        return redirect(url_for('index'))
+
+    user = dbWorker.getUser(request.cookies.get('userLogin'))
+    likedPlacesIds = dbWorker.getLikedPlaces(user.id)
+
+    places = []
+    
+    for place in likedPlacesIds:
+        place = api.getPlaceInfo(prepareRequest.preparePlaceInfo(place.place_id))
+        places.append(place)
+
+    return render_template('liked.html', places=places, auth=True, user=user)
+
+@app.route('/removefromhidden/<placeId>')
+def removefromhidden(placeId = None):
+    if placeId:
+        user = dbWorker.getUser(request.cookies.get('userLogin'))
+        dbWorker.removeHidedPlace(placeId, user.id)
+
+    return redirect(url_for('hided'))
+
+@app.route('/removefromliked/<placeId>')
+def removefromliked(placeId = None):
+    if placeId:
+        user = dbWorker.getUser(request.cookies.get('userLogin'))
+        dbWorker.removeLikedPlace(placeId, user.id)
+
+    return redirect(url_for('liked'))
 
 @app.route('/logout')
 def logout():
