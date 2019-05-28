@@ -60,7 +60,7 @@ def index():
     elif request.method == 'POST':
         places = api.getPlaces(prepareRequest.prepareList(request.form))
         if not auth.isLoggedUser(request.cookies):
-            return render_template('index.html', places=places, auth=False, keyword=request.form.get('keyword'))
+            return render_template('index.html', places=places, auth=False, post=request.form)
         user = dbWorker.getUser(request.cookies.get('userLogin'))
         sortedPlaces = []
 
@@ -82,7 +82,7 @@ def index():
                 if flag:
                     sortedPlaces[i]['liked'] = True
 
-        return render_template('index.html', places=sortedPlaces, auth=True, user=user, keyword=request.form.get('keyword'))
+        return render_template('index.html', places=sortedPlaces, auth=True, user=user, post=request.form)
 
 @app.route('/place/<placeId>')
 def place(placeId=None):

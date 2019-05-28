@@ -15,10 +15,12 @@
             <div class="container">
                 <div class="row row-header">
                     <div class="logo"><a href="/">Случайное кафе <i class="fa fa-coffee"></i></a></i></div>
+                    {% if user %}
                     <div class="header__navs">
                         <a href="/liked">Понравившиеся места</a>
                         <a href="/hided">Скрытые места</a>
                     </div>
+                    {% endif %}
                     <div class="header__right">
                         {% if auth and user %}
                             <span class="username">{{ user.user_name }}</span><a class="logout" href="/logout"><i class="fa fa-sign-out"></i></a>
@@ -33,9 +35,6 @@
         <div class="container">
                 <div class="row places">
                     <div class="filters">
-                        <div class="filters__data">
-                            
-                        </div>
                     </div>
                     <div class="content">
                         <div class="content__data">

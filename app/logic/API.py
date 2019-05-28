@@ -6,7 +6,9 @@ class API:
     KEY = 'AIzaSyDooChPPBphAwvteQu6L0qVwO-jScoDXoQ'
 
     def getPlaces(self, query):
-        placesResponse = requests.get(query + self.KEY)
+        print(query)
+        placesResponse = requests.get(query + 'key=' + self.KEY)
+        
 
         places = placesResponse.json()
 

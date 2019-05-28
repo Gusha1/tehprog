@@ -15,10 +15,12 @@
             <div class="container">
                 <div class="row row-header">
                     <div class="logo"><a href="/">Случайное кафе <i class="fa fa-coffee"></i></a></i></div>
+                    {% if user %}
                     <div class="header__navs">
                         <a href="/liked">Понравившиеся места</a>
                         <a href="/hided">Скрытые места</a>
                     </div>
+                    {% endif %}
                     <div class="header__right">
                         {% if auth and user %}
                             <span class="username">{{ user.user_name }}</span><a class="logout" href="/logout"><i class="fa fa-sign-out"></i></a>
@@ -35,13 +37,54 @@
                 <div class="row places">
                     <div class="filters">
                         <div class="filters__data">
+                            <h3 class="filters__title">Критерии</h3>
+                            <div class="input-group input__place-type">
+                                <p for="input-type">Тип заведения</p>
+                                <select name="type" id="input-type">
+                                    <option value="cafe" {% if post and post.type == 'cafe' %}selected{% endif %}>Кафе</option>
+                                    <option value="bar" {% if post and post.type == 'bar' %}selected{% endif %}>Бар</option>
+                                    <option value="restaurant" {% if post and post.type == 'restaurant' %}selected{% endif %}>Ресторан</option>
+                                    <option value="bakery" {% if post and post.type == 'bakery' %}selected{% endif %}>Пекарня</option>
+                                </select>
+                            </div>
+                            <div class="input-group input__place-type">
+                                <p for="input-type">Вид кухни</p>
+                                <select name="kitchen" id="input-kitchen">
+                                    <option value="">Не важно</option>
+                                    <option value="Японская" {% if post and post.kitchen == 'Японская' %}selected{% endif %}>Японская</option>
+                                    <option value="Грузинская" {% if post and post.kitchen == 'Грузинская' %}selected{% endif %}>Грузинская</option>
+                                    <option value="Армянская" {% if post and post.kitchen == 'Армянская' %}selected{% endif %}>Армянская</option>
+                                    <option value="Испанская" {% if post and post.kitchen == 'Испанская' %}selected{% endif %}>Испанская</option>
+                                </select>
+                            </div>
+                            <div class="input-group input-price">
+                                <p>Цена</p>
+                                <label for="">От </label>                                
+                                <select name="min_price" id="input-type">
+                                    <option value="1" {% if post and post.min_price == '1' %}selected{% endif %}>Низкой</option>
+                                    <option value="2" {% if post and post.min_price == '2' %}selected{% endif %}>Средней</option>
+                                    <option value="3" {% if post and post.min_price == '3' %}selected{% endif %}>Высокой</option>
+                                    <option value="4" {% if post and post.min_price == '4' %}selected{% endif %}>Очень высокой</option>
+                                </select>
+                                <label for=""> До </label>
+                                <select name="max_price" id="input-type">
+                                    <option value="1" {% if post and post.max_price == '1' %}selected{% endif %}>Низкой</option>
+                                    <option value="2" {% if post and post.max_price == '2' %}selected{% endif %}>Средней</option>
+                                    <option value="3" {% if post and post.max_price == '3' %}selected{% endif %}>Высокой</option>
+                                    <option value="4" {% if post and post.max_price == '4' %}selected{% endif %}>Очень высокой</option>
+                                </select>
+                            </div>
                             
+                            <div class="input-group">
+                                <span class="input-open-now" for="">Открыто сейчас</span>
+                                <input type="checkbox" {% if post and post.open_now %}checked="checked"{% endif %} name="open_now">
+                            </div>
                         </div>
                     </div>
                     <div class="content">
                         <div class="content__data">
                             <div class="content__data-top">
-                                <input type="text" name="keyword" value="{{ keyword }}" placeholder="Поиск">
+                                <input type="text" name="keyword" {% if post %}value="{{ post.keyword }}"{% endif %} placeholder="Поиск">
                                 <button type="submit"><i class="fa fa-search"></i></button>
                             </div>
                             <div class="content__data-mid">
@@ -78,7 +121,7 @@
                                         </div>
                                     {% endfor %}
                                 {% else %}
-
+                                    <h3>Мест не найдено.</h3>
                                 {% endif %}
                             </div>
                         </div>
