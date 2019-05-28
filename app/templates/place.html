@@ -1,1 +1,107 @@
-place
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/libs/font-awesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Случайное кафе</title>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="green">
+            <div class="container">
+                <div class="row row-header">
+                    <div class="logo"><a href="/">Случайное кафе <i class="fa fa-coffee"></i></a></i></div>
+                    <div class="header__navs">
+                        <a href="/liked">Понравившиеся места</a>
+                        <a href="/hided">Скрытые места</a>
+                    </div>
+                    <div class="header__right">
+                        {% if auth and user %}
+                            <span class="username">{{ user.user_name }}</span><a class="logout" href="/logout"><i class="fa fa-sign-out"></i></a>
+                        {% else %}
+                            <a href="/login" class="btn btn-white">Войти</a>
+                            <a href="/registration" class="btn btn-black">Регистрация</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="container">
+            <div class="place">
+                <div class="place__left">
+                    <div class="place__left-img" style="background: url({{ place.photo }}); background-size: cover; background-repeat: no-repeat;">
+                    </div>
+                </div>
+                <div class="place__right">
+                    <div class="place__info">
+                        <h1 class="place__name">
+                            {{ place.name }}
+                        </h1>
+                        <p class="place__rating">
+                            {% if place.rating %}
+                            {% for num in range(place.rating) %}
+                                <i class="fa fa-star"></i>
+                            {% endfor %}
+                            {% if place.rating_decimal %}
+                                <i class="fa fa-star-half"></i>
+                            {% endif %}
+                            {% endif %}
+                        </p>
+                        <p class="place__address">
+                            {{ place.vicinity }}
+                        </p>
+                        {% if place.open_now %}
+                        <p class="open_now">
+                            Сейчас открыто.
+                        </p>
+                        {% endif %}
+                        {% if place.weekday_text %}
+                        <div class="place__time">
+                            {% for time in place.weekday_text %}
+                                <p>{{ time }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <div class="single-place__icons">
+                            {% if liked %}
+                            <a href="/removefromliked/{{ place.place_id }}" class="btn btn-info">Урать из понравившихся</a>
+                            {% elif hided %}
+                            <a href="/removefromhidden/{{ place.place_id }}" class="btn btn-info">Убрать из скрытых</a>
+                            {% else %}
+                            <a href="/like/{{ place.place_id }}"><i class="fa fa-heart red" ></i></a>
+                            <a href="/hide/{{ place.place_id }}"><i class="fa fa-eye-slash"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="place__comments">
+                    <h4 class="comments__reviews-title">Отзывы</h4>
+                    <div class="w-100"></div>
+                    {% if place.reviews %}
+                    {% for comment in place.reviews %}
+                        <div class="comments__panel">
+                            <div class="comments__panel-info">
+                                <div class="comments__avatar">
+                                    <img src="{{ comment.profile_photo_url }}" alt="">
+                                </div>
+                                <div class="comments__data">
+                                    <p class="comments__date">{{ comment.time }}</p>
+                                    <p class="comments__text">{{ comment.text }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100"></div>
+                    {% endfor %}
+                    {% else %}
+                        <p class="place__no-comments">Нет отзывов.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

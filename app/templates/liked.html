@@ -58,16 +58,14 @@
                                                         {% endif %}
                                                         {% endif %}
                                                 </p>
-                                                
-                                                </p>
                                                 <p class="place-card__address">{{ place.vicinity }}</p>
                                                 <br>
-                                                <a href="/removefromliked/{{ place.place_id }}" class="btn btn-info">Урать из понравившихся</a>
+                                                <a href="/removefromliked/{{ place.place_id }}" class="btn btn-info">Убрать из понравившихся</a>
                                             </div>
                                         </div>
                                     {% endfor %}
                                 {% else %}
-                                    <h3>В скрытые места ничего не добавлено</h3>
+                                    <h3>В Понравившиеся места ничего не добавлено</h3>
                                 {% endif %}
                             </div>
                         </div>

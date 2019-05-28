@@ -97,5 +97,5 @@ class API:
 
         if 'website' in place:
             res['website'] = place.get('website')
-
-        return res
+        
+        return res 

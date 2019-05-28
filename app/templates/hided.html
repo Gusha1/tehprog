@@ -47,7 +47,7 @@
                                             <div class="place-card__image" style="background: url({{ place.photo }}) no-repeat center; background-size: cover">
                                             </div>
                                             <div class="place-card__content">
-                                                <p class="place-card__name" >{{ place.name }}</p>                                        
+                                                <a href="/place/{{ place.place_id }}" class="place-card__name" >{{ place.name }}</a>                                        
                                                 <p class="place-card__rating">
                                                         {% if place.rating %}
                                                         {% for num in range(place.rating) %}

@@ -84,9 +84,29 @@ def index():
 
         return render_template('index.html', places=sortedPlaces, auth=True, user=user, keyword=request.form.get('keyword'))
 
-@app.route('/place')
-def place():
-    return render_template('place.html')
+@app.route('/place/<placeId>')
+def place(placeId=None):
+
+    user = None
+    liked = None
+    hided = None
+
+    if placeId:
+        currentuser = dbWorker.getUser(request.cookies.get('userLogin'))
+        if currentuser:
+            user = currentuser
+            isLiked = dbWorker.getLikedPlace(placeId, user.id)
+            if isLiked:
+                liked = True
+            isHided = dbWorker.getHidedPlace(placeId, user.id)
+            if isHided:
+                hided = True
+        print(liked)
+        print(hided)
+        place = api.getPlaceInfo(prepareRequest.preparePlaceInfo(placeId))
+        return render_template('place.html', place=place, auth=True, user=user, liked=liked, hided=hided)
+    else:
+        return redirect(url_for('index'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -161,7 +181,8 @@ def liked():
 
     user = dbWorker.getUser(request.cookies.get('userLogin'))
     likedPlacesIds = dbWorker.getLikedPlaces(user.id)
-
+    for i in likedPlacesIds:
+        print(i.place_id)
     places = []
     
     for place in likedPlacesIds:

@@ -20,8 +20,9 @@ class Db:
         return Like.query.filter_by(user_id=userId).all()
 
 
-    def getLikedPlace(self, userId):
-        pass
+    def getLikedPlace(self, placeId, userId):
+        return Like.query.filter_by(place_id=placeId, user_id=userId).first()
+        
 
 
     def addLikedPlace(self, placeId, userId):
@@ -44,6 +45,8 @@ class Db:
         db.session.add(hidedPlace)
         db.session.commit()
 
+    def getHidedPlace(self, placeId, userId):
+        return Hide.query.filter_by(place_id=placeId, user_id=userId).first()
 
     def removeHidedPlace(self, placeId, userId):
         Hide.query.filter_by(place_id=placeId, user_id=userId).delete()
